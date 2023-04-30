@@ -1,12 +1,7 @@
 import Head from "next/head";
 import { NextPage } from "next";
-import { RandomFox } from "@/components/RandomFox";
-import { useState } from "react";
-
-type ImageItem = {
-    id: string;
-    url: string;
-};
+import { LazyImage } from "@/components/RandomFox";
+import { useState, MouseEventHandler } from "react";
 
 const Home: NextPage = () => {
     //generate a random function between 1 and 123
@@ -19,24 +14,17 @@ const Home: NextPage = () => {
         return Math.random().toString(36).substr(2, 9);
     };
 
-    const [images, setImages] = useState<Array<ImageItem>>([
-        {
-            id: generateId(),
-            url: `https://randomfox.ca/images/${random(1, 123)}.jpg`,
-        },
-        {
-            id: generateId(),
-            url: `https://randomfox.ca/images/${random(1, 123)}.jpg`,
-        },
-        {
-            id: generateId(),
-            url: `https://randomfox.ca/images/${random(1, 123)}.jpg`,
-        },
-        {
-            id: generateId(),
-            url: `https://randomfox.ca/images/${random(1, 123)}.jpg`,
-        },
-    ]);
+    const [images, setImages] = useState<Array<IFoxImageItem>>([]);
+
+    const addNewFox: MouseEventHandler<HTMLButtonElement> = () => {
+        setImages([
+            ...images,
+            {
+                id: generateId(),
+                url: `https://randomfox.ca/images/${random(1, 123)}.jpg`,
+            },
+        ]);
+    };
 
     return (
         <>
@@ -54,9 +42,21 @@ const Home: NextPage = () => {
             </Head>
             <main>
                 <h1 className="text-3xl font-bold underline">Hello world!</h1>
-                {images.map(({id, url}) => (
+                <button
+                    onClick={addNewFox}
+                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                >
+                    Add new RandomFox
+                </button>
+                {images.map(({ id, url }) => (
                     <div key={id} className="flex justify-center p-4">
-                        <RandomFox image={url} />
+                        <LazyImage
+                            src={url}
+                            title="random fox"
+                            width={320}
+                            height={240}
+                            onClick={() => alert("clicked")}
+                        />
                     </div>
                 ))}
             </main>
