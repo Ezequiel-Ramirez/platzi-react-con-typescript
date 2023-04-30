@@ -1,5 +1,6 @@
 import Head from 'next/head'
 import { NextPage } from 'next'
+import { RandomFox } from '@/components/RandomFox'
 
 
  const Home:NextPage = () => {
@@ -15,6 +16,7 @@ import { NextPage } from 'next'
       <h1 className="text-3xl font-bold underline">
       Hello world!
     </h1>
+    <RandomFox/>
       </main>
     </>
   )
